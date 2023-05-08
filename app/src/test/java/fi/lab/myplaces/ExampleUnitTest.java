@@ -1,4 +1,4 @@
-package fi.lab.fragmentexample;
+package fi.lab.myplaces;
 
 import org.junit.Test;
 

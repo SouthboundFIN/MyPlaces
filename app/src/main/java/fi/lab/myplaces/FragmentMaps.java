@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -45,44 +46,35 @@ public class FragmentMaps extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap mapObj) {
-            // Array list to store the marker data
-
             LatLng tre = new LatLng(61.4979662395883, 23.76361569400841);
             Marker m0 = mapObj.addMarker(new MarkerOptions()
                     .position(tre)
                     .title("Tampere")
                     .snippet("lisätieto")
                     .draggable(true));
-//          m0.setDraggable(true);
+            m0.setTag(m0.getId());
             mapObj.moveCamera(CameraUpdateFactory.newLatLng(tre));
             // Google Maps UI elements
             mapObj.getUiSettings().setAllGesturesEnabled(true);
-//            mapObj.getUiSettings().setZoomControlsEnabled(true);
+//          mapObj.getUiSettings().setZoomControlsEnabled(true);
             mapObj.getUiSettings().setMapToolbarEnabled(false);
-
 
 
             mapObj.setOnMapClickListener(latLng -> {
                 // TODO: Open new activity here with prompt to add new marker on clicked coordinates
                 // User input (marker description) given in FragmentBottom EditText fields
-                Marker m = mapObj.addMarker(new MarkerOptions()
-                        .position(latLng)
-                        .title("OTSIKKO")
-                        .snippet("Lisätieto"));
-//              Marker m = mapObj.addMarker(new MarkerOptions().position(latLng).title("M"+new Random().nextInt()));
-
+                addMarker(mapObj, latLng, "testititle", "testisnippet");
             });
             // to remove a marker...
             mapObj.setOnMarkerClickListener(m -> {
                 // TODO: optionally open a new activity containing marker info (whatever it is)
                 // and question "ok to remove?" If ok, remove...
+                Toast.makeText(getContext(), "Marker: "+m.getTag()+" | "+m.getTitle()+" removed", Toast.LENGTH_LONG).show();
+                m.showInfoWindow();
+                m.setTag(null);
                 m.remove();
-                Toast.makeText(getContext(), "Marker: "+m.getTitle()+" removed", Toast.LENGTH_SHORT).show();
                 return true; // true: we handled the event, false: default actions still by parent
             });
-
-
-
         }
     };
 
@@ -103,4 +95,19 @@ public class FragmentMaps extends Fragment {
             mapFragment.getMapAsync(callback);
         }
     }
+
+    public void addMarker(GoogleMap mapObj, LatLng latLng, String title, String snippet) {
+        Marker m = mapObj.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title(title)
+                .snippet(snippet));
+
+                m.setTag(m.getId());
+                m.showInfoWindow();
+                System.out.println("The tag of the new marker is: "+m.getTag());
+                System.out.println(m.getId()+" "+m.getPosition()+" "+m.getTitle()+" "+m.getSnippet());
+//              mapObj.moveCamera(CameraUpdateFactory.newLatLng(m.getPosition())); // Move camera to marker
+
+    }
+
 }

@@ -13,6 +13,10 @@ import java.time.LocalTime;
 
 
 public class MainActivity extends AppCompatActivity {
+    //EditText editTextTitle; // TODO: EditText field for marker Title(name)
+    //EditText editTextSnippet; // TODO: EditText field for marker Snippet(description)
+    //ListView listViewMarkers; // TODO: ListView for saved markers
+    DBHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +24,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Initialize fragment
-        Fragment fragment=new FragmentMaps();
+        Fragment mapFragment=new FragmentMaps();
 
         // Open fragment
         getSupportFragmentManager()
-                .beginTransaction().replace(R.id.FragmentTop,fragment)
+                .beginTransaction().replace(R.id.FragmentTop,mapFragment)
                 .commit();
 
     }

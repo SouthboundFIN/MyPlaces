@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.ListView;
 
@@ -13,10 +14,9 @@ import java.time.LocalTime;
 
 
 public class MainActivity extends AppCompatActivity {
-    //EditText editTextTitle; // TODO: EditText field for marker Title(name)
-    //EditText editTextSnippet; // TODO: EditText field for marker Snippet(description)
     //ListView listViewMarkers; // TODO: ListView for saved markers
-    DBHandler dbHandler;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

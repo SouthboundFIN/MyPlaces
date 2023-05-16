@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.location.Location;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,6 +31,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class FragmentMaps extends Fragment {
 
+    private View rootView;
+    private EditText editTextTitle;
+    private EditText editTextSnippet;
 
     GoogleMap mapObj;
     SearchView searchView;
@@ -50,8 +54,7 @@ public class FragmentMaps extends Fragment {
             Marker m0 = mapObj.addMarker(new MarkerOptions()
                     .position(tre)
                     .title("Tampere")
-                    .snippet("lisätieto")
-                    .draggable(true));
+                    .snippet("lisätieto"));
             m0.setTag(m0.getId());
             mapObj.moveCamera(CameraUpdateFactory.newLatLng(tre));
             // Google Maps UI elements
@@ -61,20 +64,34 @@ public class FragmentMaps extends Fragment {
 
 
             mapObj.setOnMapClickListener(latLng -> {
-                // TODO: Open new activity here with prompt to add new marker on clicked coordinates
-                // User input (marker description) given in FragmentBottom EditText fields
-                addMarker(mapObj, latLng, "testititle", "testisnippet");
+                if (!editTextTitle.getText().toString().equals("") ) {
+                    addMarker(mapObj, latLng, editTextTitle.getText().toString().trim(), editTextSnippet.getText().toString().trim());
+                    editTextTitle.setText("");
+                    editTextSnippet.setText("");
+                } else {
+                    Toast.makeText(getContext(), "Please give at least a title for the new marker.", Toast.LENGTH_LONG).show();
+                }
             });
             // to remove a marker...
             mapObj.setOnMarkerClickListener(m -> {
+
                 // TODO: optionally open a new activity containing marker info (whatever it is)
                 // and question "ok to remove?" If ok, remove...
-                Toast.makeText(getContext(), "Marker: "+m.getTag()+" | "+m.getTitle()+" removed", Toast.LENGTH_LONG).show();
                 m.showInfoWindow();
-                m.setTag(null);
-                m.remove();
                 return true; // true: we handled the event, false: default actions still by parent
             });
+
+            // TODO: Edit marker title and snippet texts marker info window is normal clicked
+            mapObj.setOnInfoWindowClickListener(m -> {
+            });
+
+            // Delete marker when marker info window is long clicked
+            mapObj.setOnInfoWindowLongClickListener(m -> {
+                Toast.makeText(getContext(), "Marker: "+m.getTag()+" | "+m.getTitle()+" removed", Toast.LENGTH_LONG).show();
+                m.setTag(null);
+                m.remove();
+            });
+
         }
     };
 
@@ -83,7 +100,10 @@ public class FragmentMaps extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_maps, container, false);
+        rootView = inflater.inflate(R.layout.fragment_maps, container, false);
+        editTextTitle = rootView.findViewById(R.id.editTextTitle);
+        editTextSnippet = rootView.findViewById(R.id.editTextSnippet);
+        return rootView;
     }
 
     @Override

@@ -8,4 +8,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     map:cameraZoom="15"
-    tools:context=".FragmentMaps" />
+    tools:context=".FragmentMaps">
+
+        <EditText
+        android:id="@+id/editTextTitle"
+        android:textColorHint="#aaa"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:alpha="0.85"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:inputType="text"
+        android:layout_marginHorizontal="100dp"
+        android:text=""
+        android:hint="Title"
+        android:textAlignment="center"
+        android:translationX="0dp"
+        android:translationY="20dp"
+        android:translationZ="5dp" />
+
+        <EditText
+        android:id="@+id/editTextSnippet"
+        android:textColorHint="#aaa"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:alpha="0.85"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:inputType="text"
+        android:layout_marginHorizontal="100dp"
+        android:text=""
+        android:hint="Details"
+        android:textAlignment="center"
+        android:translationX="0dp"
+        android:translationY="80dp"
+        android:translationZ="5dp" />
+
+</fragment>
